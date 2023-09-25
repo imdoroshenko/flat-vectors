@@ -1,8 +1,8 @@
 import { Graphics } from '@pixi/graphics'
 import { $x, $y } from '../types'
-import { AbstractObject, IObject } from './AbstractObject'
+import { AbstractActor, IActor } from './AbstractActor'
 
-export class Circle extends AbstractObject implements IObject {
+export class Circle extends AbstractActor implements IActor {
   r: number = 0
   graphics: Graphics
   constructor(r: number) {

@@ -44,4 +44,20 @@ export class Vector extends Array<number> {
   copy() {
     return new Vector(this[$x], this[$y])
   }
+
+  flush() {
+    this[$x] = 0
+    this[$y] = 0
+    return this
+  }
+
+  rotate(angle: number) {
+    const cos = Math.cos(angle)
+    const sin = Math.sin(angle)
+    const x = this[$x]
+    const y = this[$y]
+    this[$x] = x * cos - y * sin
+    this[$y] = x * sin + y * cos
+    return this
+  }
 }

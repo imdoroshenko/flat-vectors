@@ -2,13 +2,14 @@ import { $r, $x, $y, Box, Space } from '../types'
 import { Vector } from '../Vector'
 import { DisplayObject } from '@pixi/display'
 
-export interface IMobile {
+export interface ITransformable {
   readonly space: Space
+  readonly sideEffects: Set<Space>
   rotation: number
   rotationFrequency: number
 }
 
-export interface IObject extends IMobile, IRenderable {
+export interface IActor extends ITransformable, IRenderable {
   readonly box: Box
   applySpace(): this
   destructor(): void
@@ -19,8 +20,9 @@ export interface IRenderable {
   graphics: DisplayObject
 }
 
-export abstract class AbstractObject {
-  readonly space: Space = [new Vector(0, 0), new Vector(0, 0), new Vector(0, 0)]
+export abstract class AbstractActor {
+  readonly space: Space = [new Vector(0, 0), new Vector(0, 0), new Vector(0, 0), 0, 0]
+  readonly sideEffects: Set<Space> = new Set()
   readonly box: Box = [new Vector(0, 0), new Vector(0, 0)]
   rotation: number = 0
   rotationFrequency: number = 0

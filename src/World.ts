@@ -1,12 +1,13 @@
 import { Application } from '@pixi/app'
 import { Box } from './types'
 import { Vector } from './Vector'
-import { IObject } from './objects/AbstractObject'
+import { IActor } from './actors/AbstractActor'
 
 export interface IMiddleware {
   setWorld?: (world: World) => this
   tick: (delta: number) => void
-  addObjects?: (...objects: IObject[]) => void
+  addActors?: (...objects: IActor[]) => void
+  tearDown?: () => void
 }
 
 export interface Params {
@@ -16,7 +17,7 @@ export interface Params {
 export class World {
   app: Application<HTMLCanvasElement>
   container: Box = [new Vector(0, 0), new Vector(100, 100)]
-  objects: IObject[] = []
+  actors: IActor[] = []
   middlewares: IMiddleware[] = []
   timeFactor: number = 1e-3
   el: HTMLElement
@@ -38,11 +39,11 @@ export class World {
     this.middlewares.push(middleware)
     return this
   }
-  addObjects(...objects: IObject[]) {
-    this.objects.push(...objects)
+  addActors(...objects: IActor[]) {
+    this.actors.push(...objects)
     this.app.stage.addChild(...objects.map((obj) => obj.graphics))
     for (const mw of this.middlewares) {
-      mw.addObjects && mw.addObjects(...objects)
+      mw.addActors && mw.addActors(...objects)
     }
     return this
   }
