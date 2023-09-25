@@ -1,10 +1,11 @@
-import { Vector } from './Vector'
-import { IObject } from './objects/AbstractObject'
-import { $r, $v, $x, $y, Box } from './types'
+import { Vector } from '../Vector'
+import { IMiddleware } from '../World'
+import { IObject } from '../objects/AbstractObject'
+import { $r, $x, $y, Box } from '../types'
 
 const { max, min, PI } = Math
 
-export class Motion {
+export class Motion implements IMiddleware {
   readonly objects: IObject[] = []
   readonly container: Box = [new Vector(0, 0), new Vector(100, 100)]
   constructor(area: Box) {
@@ -15,9 +16,15 @@ export class Motion {
     for (const i in area) {
       this.container[i] = area[i]
     }
+    return this
   }
 
-  applyMotion(delta: number) {
+  addObjects(...objects: IObject[]) {
+    this.objects.push(...objects)
+    return this
+  }
+
+  tick(delta: number) {
     const [rc0, rc1] = this.container
     this.objects.forEach((obj) => {
       const [r, v, a] = obj.space
