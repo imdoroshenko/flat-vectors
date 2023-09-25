@@ -1,5 +1,6 @@
 import { Sprite } from '@pixi/sprite'
-import { AbstractObject, IObject } from './AbstractObject'
+import { AbstractObject, IObject, IMobile, IRenderable } from './AbstractObject'
+
 export class Bunny extends AbstractObject implements IObject {
   graphics: Sprite
   constructor() {

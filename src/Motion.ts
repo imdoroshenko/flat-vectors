@@ -2,7 +2,7 @@ import { Vector } from './Vector'
 import { IObject } from './objects/AbstractObject'
 import { $r, $v, $x, $y, Box } from './types'
 
-const { max, min } = Math
+const { max, min, PI } = Math
 
 export class Motion {
   readonly objects: IObject[] = []
@@ -28,6 +28,10 @@ export class Motion {
       v.add(a.copy().mul(delta))
       // obj.space[$v][$x] = v[$x] + a[$x] * delta
       // obj.space[$v][$y] = v[$y] + a[$y] * delta
+      // update rotation
+
+      obj.rotation += 2 * PI * obj.rotationFrequency * delta
+
       obj.applySpace()
     })
   }

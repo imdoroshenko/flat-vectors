@@ -17,6 +17,7 @@ export function initApp(el: HTMLElement) {
   circle.space[$v][$x] = 200
   circle.space[$v][$y] = 200
   circle.space[$a][$x] = -50
+  circle.rotationFrequency = 0.5
   app.stage.addChild(circle.graphics)
   motion.objects.push(circle)
   // for (let i = 0; i < 1000; i++) {
