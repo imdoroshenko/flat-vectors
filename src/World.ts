@@ -22,9 +22,10 @@ export class World {
   timeFactor: number = 1e-3
   el: HTMLElement
   constructor({ el }: Params) {
+    
     this.app = new Application<HTMLCanvasElement>({
       background: '#000',
-      resizeTo: window,
+      resizeTo: el,
     })
     this.el = el
     // @ts-ignore
