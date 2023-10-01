@@ -1,22 +1,37 @@
 import { Graphics } from '@pixi/graphics'
-import { $x, $y } from '../types'
-import { AbstractActor, IActor } from './AbstractActor'
+import { AbstractActor, BodyType, IActor } from './AbstractActor'
+
+
+export type CircleOptions = {
+  radius: number
+  fill?: number | null
+  stroke?: number | null
+}
 
 export class Circle extends AbstractActor implements IActor {
-  r: number = 0
+  radius: number = 0
   graphics: Graphics
-  constructor(r: number) {
+  bodyType: BodyType = 'circle'
+  fill: number | null
+  stroke: number | null
+  constructor({radius, fill = null, stroke = null}: CircleOptions) {
     super()
-    this.r = r
+    this.radius = radius
     this.graphics = new Graphics()
+    this.fill = fill
+    this.stroke = stroke
   }
 
   init() {
     this.graphics.clear()
-    this.graphics.beginFill(0x9966ff)
-    this.graphics.drawCircle(0, 0, this.r)
+    if (this.fill) {
+      this.graphics.beginFill(this.fill)
+    }
+    if (this.stroke) {
+      this.graphics.lineStyle(1, this.stroke)
+    }
+    this.graphics.drawCircle(0, 0, this.radius)
     this.graphics.endFill()
-    this.updateBoxFromRadius(this.r)
     return this
   }
 
@@ -24,10 +39,4 @@ export class Circle extends AbstractActor implements IActor {
     this.graphics.destroy()
   }
 
-  updateBoxFromRadius(r: number) {
-    this.box[0][$x] = -r
-    this.box[0][$y] = -r
-    this.box[1][$x] = r
-    this.box[1][$y] = r
-  }
 }

@@ -9,8 +9,10 @@ export interface ITransformable {
   rotationFrequency: number
 }
 
-export interface IActor extends ITransformable, IRenderable {
-  readonly box: Box
+export type BodyType = 'circle' | 'rectangle' | 'polygon'
+
+
+export interface IActor extends ITransformable, IRenderable, ICollidable {
   applySpace(): this
   destructor(): void
   init(): this
@@ -20,6 +22,12 @@ export interface IRenderable {
   graphics: DisplayObject
 }
 
+export interface ICollidable {
+  bodyType: BodyType
+  polygon: Vector[]
+  radius: number
+}
+
 export abstract class AbstractActor {
   readonly space: Space = [new Vector(0, 0), new Vector(0, 0), new Vector(0, 0), 0, 0]
   readonly sideEffects: Set<Space> = new Set()
@@ -27,6 +35,8 @@ export abstract class AbstractActor {
   rotation: number = 0
   rotationFrequency: number = 0
   abstract graphics: DisplayObject
+  radius: number = 0
+  readonly polygon: Vector[] = []
   applySpace(): this {
     this.graphics.x = this.space[$r][$x]
     this.graphics.y = this.space[$r][$y]
