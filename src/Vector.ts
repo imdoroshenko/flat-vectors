@@ -60,4 +60,17 @@ export class Vector extends Array<number> {
     this[$y] = x * sin + y * cos
     return this
   }
+
+  set(x: number, y: number) {
+    this[$x] = x
+    this[$y] = y
+    return this
+  }
+
+  get x() {
+    return this[$x]
+  }
+  get y() {
+    return this[$y]
+  }
 }

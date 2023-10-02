@@ -1,25 +1,26 @@
 import { Graphics } from '@pixi/graphics'
 import { AbstractActor, BodyType, IActor } from './AbstractActor'
+import { Vector } from '../Vector'
 import { cHeight, cWidth } from '../utils/bodies'
 
-export type CircleOptions = {
-  radius: number
+export type PolygonOptions = {
+  polygon: Vector[]
   fill?: number | null
   stroke?: number | null
 }
 
-export class Circle extends AbstractActor implements IActor {
+export class Polygon extends AbstractActor implements IActor {
   radius: number = 0
   graphics: Graphics
-  bodyType: BodyType = 'circle'
+  bodyType: BodyType = 'rectangle'
   fill: number | null
   stroke: number | null
-  constructor({ radius, fill = null, stroke = null }: CircleOptions) {
+  constructor({ polygon, fill = null, stroke = null }: PolygonOptions) {
     super()
-    this.radius = radius
     this.graphics = new Graphics()
     this.fill = fill
     this.stroke = stroke
+    this.polygon.push(...polygon)
   }
 
   init() {
@@ -30,7 +31,7 @@ export class Circle extends AbstractActor implements IActor {
     if (this.stroke) {
       this.graphics.lineStyle(1, this.stroke)
     }
-    this.graphics.drawCircle(0, 0, this.radius)
+    this.graphics.drawPolygon(this.polygon)
     this.graphics.pivot.set(cWidth(this) / 2, cHeight(this) / 2)
     this.graphics.endFill()
     return this

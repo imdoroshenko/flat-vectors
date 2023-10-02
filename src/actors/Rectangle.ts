@@ -2,6 +2,7 @@ import { Graphics } from '@pixi/graphics'
 import { AbstractActor, BodyType, IActor } from './AbstractActor'
 import { Vector } from '../Vector'
 import { $x, $y } from '../types'
+import { cHeight, cWidth } from '../utils/bodies'
 
 export type RectangleOptions = {
   width: number
@@ -49,6 +50,7 @@ export class Rectangle extends AbstractActor implements IActor {
       this.width,
       this.height
     )
+    this.graphics.pivot.set(cHeight(this) / 2, cWidth(this) / 2)
     this.graphics.endFill()
     return this
   }
