@@ -12,9 +12,10 @@ export type PolygonOptions = {
 export class Polygon extends AbstractActor implements IActor {
   radius: number = 0
   graphics: Graphics
-  bodyType: BodyType = 'rectangle'
+  bodyType: BodyType = 'polygon'
   fill: number | null
   stroke: number | null
+  pivot: Vector = new Vector(0, 0)
   constructor({ polygon, fill = null, stroke = null }: PolygonOptions) {
     super()
     this.graphics = new Graphics()
@@ -23,7 +24,7 @@ export class Polygon extends AbstractActor implements IActor {
     this.polygon.push(...polygon)
   }
 
-  init() {
+  draw() {
     this.graphics.clear()
     if (this.fill) {
       this.graphics.beginFill(this.fill)
@@ -32,8 +33,13 @@ export class Polygon extends AbstractActor implements IActor {
       this.graphics.lineStyle(1, this.stroke)
     }
     this.graphics.drawPolygon(this.polygon)
-    this.graphics.pivot.set(cWidth(this) / 2, cHeight(this) / 2)
+    this.graphics.pivot.set(...this.pivot)
     this.graphics.endFill()
+  }
+
+  init() {
+    this.pivot.set(cWidth(this) / 2, cHeight(this) / 2)
+    this.draw()
     return this
   }
 

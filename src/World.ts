@@ -4,10 +4,10 @@ import { Vector } from './Vector'
 import { IActor } from './actors/AbstractActor'
 
 export interface IMiddleware {
-  setWorld?: (world: World) => this
+  setWorld: (world: World) => this
   tick: (delta: number) => void
-  addActors?: (...objects: IActor[]) => void
-  tearDown?: () => void
+  addActors: (...objects: IActor[]) => void
+  tearDown: () => void
 }
 
 export interface Params {
@@ -22,7 +22,6 @@ export class World {
   timeFactor: number = 1e-3
   el: HTMLElement
   constructor({ el }: Params) {
-    
     this.app = new Application<HTMLCanvasElement>({
       background: '#000',
       resizeTo: el,

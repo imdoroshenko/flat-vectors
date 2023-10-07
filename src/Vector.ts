@@ -41,6 +41,10 @@ export class Vector extends Array<number> {
     this[$y] /= len
     return this
   }
+  dot(v: Vector) {
+    return this[$x] * v[$x] + this[$y] * v[$y]
+  }
+
   copy() {
     return new Vector(this[$x], this[$y])
   }

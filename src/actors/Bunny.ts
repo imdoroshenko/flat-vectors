@@ -1,5 +1,5 @@
 import { Sprite } from '@pixi/sprite'
-import { AbstractActor, BodyType, IActor } from './AbstractActor'
+import { AbstractActor, BodyType, IActor, ICollidable } from './AbstractActor'
 import { Vector } from '../Vector'
 
 export class Bunny extends AbstractActor implements IActor {
@@ -7,6 +7,7 @@ export class Bunny extends AbstractActor implements IActor {
   width: number
   height: number
   bodyType: BodyType = 'rectangle'
+  pivot: Vector = new Vector(0, 0)
   constructor(width: number = 26, height: number = 37) {
     super()
     this.graphics = Sprite.from('https://pixijs.com/assets/bunny.png')
@@ -24,6 +25,7 @@ export class Bunny extends AbstractActor implements IActor {
       new Vector(this.width / 2, this.height / 2),
       new Vector(-this.width / 2, this.height / 2)
     )
+    this.pivot.set(this.width / 2, this.height / 2)
     this.graphics.anchor.set(0.5)
     return this
   }

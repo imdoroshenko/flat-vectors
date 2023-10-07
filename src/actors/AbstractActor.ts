@@ -11,7 +11,6 @@ export interface ITransformable {
 
 export type BodyType = 'circle' | 'rectangle' | 'polygon'
 
-
 export interface IActor extends ITransformable, IRenderable, ICollidable {
   applySpace(): this
   destructor(): void
@@ -26,9 +25,12 @@ export interface ICollidable {
   bodyType: BodyType
   polygon: Vector[]
   radius: number
+  pivot: Vector
+  targets: Set<ICollidable>
 }
 
 export abstract class AbstractActor {
+  targets: Set<ICollidable> = new Set()
   readonly space: Space = [new Vector(0, 0), new Vector(0, 0), new Vector(0, 0), 0, 0]
   readonly sideEffects: Set<Space> = new Set()
   readonly box: Box = [new Vector(0, 0), new Vector(0, 0)]

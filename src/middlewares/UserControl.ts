@@ -14,6 +14,13 @@ export class UserControl implements IMiddleware {
     window.addEventListener('keyup', this.keyUpHandler)
   }
 
+  addActors = () => {}
+  setWorld = () => this
+  tearDown = () => {
+    window.removeEventListener('keydown', this.keyDownHandler)
+    window.removeEventListener('keyup', this.keyUpHandler)
+  }
+
   keyDownHandler = (e: KeyboardEvent) => {
     if (!this.actor || this.isPressed.has(e.code)) return
     console.log('keyDownHandler')

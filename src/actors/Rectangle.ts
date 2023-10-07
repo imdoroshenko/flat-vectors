@@ -20,6 +20,7 @@ export class Rectangle extends AbstractActor implements IActor {
   stroke: number | null
   height: number
   width: number
+  pivot: Vector = new Vector(0, 0)
   constructor({ width, height, fill = null, stroke = null }: RectangleOptions) {
     super()
     this.width = width
@@ -29,7 +30,7 @@ export class Rectangle extends AbstractActor implements IActor {
     this.stroke = stroke
   }
 
-  init() {
+  draw() {
     this.graphics.clear()
     if (this.fill) {
       this.graphics.beginFill(this.fill)
@@ -37,21 +38,26 @@ export class Rectangle extends AbstractActor implements IActor {
     if (this.stroke) {
       this.graphics.lineStyle(1, this.stroke)
     }
-    this.polygon.length = 0
-    this.polygon.push(
-      new Vector(-this.width / 2, -this.height / 2),
-      new Vector(this.width / 2, -this.height / 2),
-      new Vector(this.width / 2, this.height / 2),
-      new Vector(-this.width / 2, this.height / 2)
-    )
     this.graphics.drawRect(
       this.polygon[0][$x],
       this.polygon[0][$y],
       this.width,
       this.height
     )
-    this.graphics.pivot.set(cHeight(this) / 2, cWidth(this) / 2)
+    this.graphics.pivot.set(...this.pivot)
     this.graphics.endFill()
+  }
+
+  init() {
+    this.polygon.length = 0
+    this.polygon.push(
+      new Vector(0, 0),
+      new Vector(this.width, 0),
+      new Vector(this.width, this.height),
+      new Vector(0, this.height)
+    )
+    this.pivot.set(cWidth(this) / 2, cHeight(this) / 2)
+    this.draw()
     return this
   }
 

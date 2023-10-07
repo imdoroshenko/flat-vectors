@@ -1,5 +1,5 @@
 import { Vector } from '../Vector'
-import { IMiddleware } from '../World'
+import { IMiddleware, World } from '../World'
 import { IActor } from '../actors/AbstractActor'
 import { $a, $o, $r, $v, $x, $y, Box } from '../types'
 
@@ -11,6 +11,9 @@ export class Transform implements IMiddleware {
   constructor(area: Box) {
     this.setArea(area)
   }
+
+  setWorld = () => this
+  tearDown = () => {}
 
   setArea(area: Box) {
     for (const i in area) {
