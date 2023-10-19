@@ -19,4 +19,4 @@ Number of dummy polygons to generate
 
 ##
 
-![collision_demo](https://github.com/imdoroshenko/flat-vectors/assets/4551081/0a91a89e-f626-41e4-bee2-3afd3f71926f)
+![collision_demo](https://github.com/imdoroshenko/flat-vectors/assets/4551081/b554c2e2-cd22-448b-be70-3da36d3d228c)
