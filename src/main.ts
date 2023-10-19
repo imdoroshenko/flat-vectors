@@ -7,13 +7,12 @@ import { Bunny } from './actors/Bunny'
 import { UserControl } from './middlewares/UserControl'
 import { Circle } from './actors/Circle'
 import { $r, $x, $y } from './types'
-import { Rectangle } from './actors/Rectangle'
 import { Polygon } from './actors/Polygon'
-import { Colision } from './middlewares/Colision'
+import { Collision } from './middlewares/Collision'
 
 const ctrl = new UserControl()
 const world = new World({ el: document.querySelector<HTMLDivElement>('#app')! })
-  .addMiddleware(new Colision())
+  .addMiddleware(new Collision())
   .addMiddleware(new Transform([new Vector(0, 0), new Vector(1000, 700)]))
   .addMiddleware(ctrl)
   .init()
@@ -70,4 +69,4 @@ poly2.space[$r].set(600, 300)
 
 // ctrl.setControlledActor(bunny)
 ctrl.setControlledActor(poly1)
-world.addActors(bunny, circle1, circle2, poly1, poly2)
+world.addActors(bunny, circle1, circle2, poly1, poly2, ...polygons)
