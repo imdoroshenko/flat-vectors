@@ -1,0 +1,1 @@
+/Users/ivan_doroshenko/projects/flat-vectors/wasm/sat_collision/target/wasm32-unknown-unknown/release/libsat_collision.rlib: /Users/ivan_doroshenko/projects/flat-vectors/wasm/sat_collision/src/collision.rs /Users/ivan_doroshenko/projects/flat-vectors/wasm/sat_collision/src/lib.rs /Users/ivan_doroshenko/projects/flat-vectors/wasm/sat_collision/src/vectors.rs
