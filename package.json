@@ -10,10 +10,12 @@
   },
   "devDependencies": {
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-wasm": "^3.2.2"
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "pixi.js": "^7.2.4"
+    "pixi.js": "^7.2.4",
+    "sat_collision": "file:./wasm/sat_collision/pkg"
   }
 }

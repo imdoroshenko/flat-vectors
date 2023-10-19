@@ -9,10 +9,14 @@ import { Circle } from './actors/Circle'
 import { $r, $x, $y } from './types'
 import { Polygon } from './actors/Polygon'
 import { Collision } from './middlewares/Collision'
+import { getURLParam } from './utils/url'
+
+const dummyPolygonsNum = parseInt(getURLParam('n', '0'))
+const collisionDetectionImpl = getURLParam('impl', 'js')
 
 const ctrl = new UserControl()
 const world = new World({ el: document.querySelector<HTMLDivElement>('#app')! })
-  .addMiddleware(new Collision())
+  .addMiddleware(new Collision(collisionDetectionImpl))
   .addMiddleware(new Transform([new Vector(0, 0), new Vector(1000, 700)]))
   .addMiddleware(ctrl)
   .init()
@@ -39,7 +43,7 @@ const randomPolygon = () => {
   return p
 }
 
-const polygons = Array.from({ length: 100 }, () => randomPolygon())
+const polygons = Array.from({ length: dummyPolygonsNum }, () => randomPolygon())
 
 const poly1 = new Polygon({
   polygon: [

@@ -27,6 +27,7 @@ export interface ICollidable {
   radius: number
   pivot: Vector
   targets: Set<ICollidable>
+  onCollisionChange: () => void
 }
 
 export abstract class AbstractActor {
@@ -39,6 +40,7 @@ export abstract class AbstractActor {
   abstract graphics: DisplayObject
   radius: number = 0
   readonly polygon: Vector[] = []
+  onCollisionChange() {}
   applySpace(): this {
     this.graphics.x = this.space[$r][$x]
     this.graphics.y = this.space[$r][$y]

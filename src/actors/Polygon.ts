@@ -16,6 +16,7 @@ export class Polygon extends AbstractActor implements IActor {
   fill: number | null
   stroke: number | null
   pivot: Vector = new Vector(0, 0)
+  collidedStroke: number = 0xff0000
   constructor({ polygon, fill = null, stroke = null }: PolygonOptions) {
     super()
     this.graphics = new Graphics()
@@ -24,13 +25,17 @@ export class Polygon extends AbstractActor implements IActor {
     this.polygon.push(...polygon)
   }
 
+  onCollisionChange(): void {
+    this.draw()
+  }
+
   draw() {
     this.graphics.clear()
     if (this.fill) {
       this.graphics.beginFill(this.fill)
     }
     if (this.stroke) {
-      this.graphics.lineStyle(1, this.stroke)
+      this.graphics.lineStyle(1, this.targets.size ? this.collidedStroke : this.stroke)
     }
     this.graphics.drawPolygon(this.polygon)
     this.graphics.pivot.set(...this.pivot)
