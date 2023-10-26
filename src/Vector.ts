@@ -35,10 +35,16 @@ export class Vector extends Array<number> {
   magnitude() {
     return Math.sqrt(this[$x] * this[$x] + this[$y] * this[$y])
   }
-  nor() {
+  normalized() {
     const len = this.magnitude()
     this[$x] /= len
     this[$y] /= len
+    return this
+  }
+  normal() {
+    const temp = this[$x]
+    this[$x] = -this[$y]
+    this[$y] = temp
     return this
   }
   dot(v: Vector) {

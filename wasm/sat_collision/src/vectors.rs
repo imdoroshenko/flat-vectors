@@ -1,6 +1,6 @@
 pub struct Vector2D {
-    x: f32,
-    y: f32,
+    pub x: f32,
+    pub y: f32,
 }
 
 impl Vector2D {
@@ -35,6 +35,13 @@ impl Vector2D {
         Vector2D {
             x: self.x / mag,
             y: self.y / mag,
+        }
+    }
+
+    pub fn normal(&self) -> Vector2D {
+        Vector2D {
+            x: -self.y,
+            y: self.x,
         }
     }
 

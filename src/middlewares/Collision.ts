@@ -28,11 +28,7 @@ export class Collision implements IMiddleware {
     for (let i = 0, ln = polygon.length; i < ln; i++) {
       const v1 = polygon[i]
       const v2 = polygon[(i + 1) % ln]
-      yield v1
-        .copy()
-        .sub(v2)
-        .rotate(Math.PI / 2)
-        .nor()
+      yield v1.copy().sub(v2).normal()
     }
   }
 
@@ -161,6 +157,7 @@ export class Collision implements IMiddleware {
   detectCollisionsWASMBulk() {
     // Batch all polygons together and send it to WASM for collision detection
     const polys = this.onlyPolygons()
+
     const [polygons, sizes] = polys.reduce<[number[], number[]]>(
       (acc, obj) => {
         const flatPolygon = this.getTransformedPolygonFlat(obj)
