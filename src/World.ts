@@ -2,12 +2,12 @@ import { Application } from '@pixi/app'
 import { Box } from './types'
 import { Vector } from './Vector'
 import { IActor } from './actors/AbstractActor'
-
 export interface IMiddleware {
   setWorld: (world: World) => this
   tick: (delta: number) => void
   addActors: (...objects: IActor[]) => void
   tearDown: () => void
+  tearUp: () => void
 }
 
 export interface Params {
@@ -26,6 +26,7 @@ export class World {
       background: '#000',
       resizeTo: el,
     })
+
     this.el = el
     // @ts-ignore
     globalThis.__PIXI_APP__ = app
@@ -35,7 +36,8 @@ export class World {
     return this
   }
   addMiddleware(middleware: IMiddleware) {
-    middleware.setWorld && middleware.setWorld(this)
+    middleware.setWorld(this)
+    middleware.tearUp()
     this.middlewares.push(middleware)
     return this
   }

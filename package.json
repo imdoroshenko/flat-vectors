@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "pixi.js": "^7.2.4",
+    "pixi.js": "^7.3.2",
     "sat_collision": "file:./wasm/sat_collision/pkg"
   }
 }
