@@ -1,9 +1,14 @@
 import './style.css'
 import { World } from './World'
-import { GridManager } from './middlewares/Grid'
+import { GridManager, Tile } from './middlewares/Grid'
 
+const gm = new GridManager()
+gm.emmiter.on('onHover', (tile: Tile) => {
+  gm.hightlightCoords(tile.x, tile.y, tile.z)
+  console.log('hover', tile.x, tile.y)
+})
 // init world
 const world = new World({ el: document.querySelector<HTMLDivElement>('#app')! })
-  .addMiddleware(new GridManager())
+  .addMiddleware(gm)
   .init()
   .start()
