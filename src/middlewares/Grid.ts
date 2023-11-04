@@ -1,25 +1,10 @@
-import { IMiddleware, World } from '../World'
+import { IMiddleware, World, WorldPointerEvent } from '../World'
 import { IActor } from '../actors/AbstractActor'
 import { Container } from '@pixi/display'
 import { Graphics } from '@pixi/graphics'
 
 import { assert } from '../utils/assert'
-
-class EventEmmiter<T extends { [k: string]: (...args: any[]) => any }> {
-  listeners = new Map<keyof T, Set<T[keyof T]>>()
-  on<K extends keyof T>(type: K, listener: T[K]) {
-    this.listeners.set(type, (this.listeners.get(type) ?? new Set()).add(listener))
-    return this
-  }
-  off<K extends keyof T>(type: K, listener: T[K]) {
-    this.listeners.set(type, (this.listeners.get(type) ?? new Set()).add(listener))
-    return this
-  }
-  trigger<K extends keyof T>(type: K, params: Parameters<T[K]>) {
-    this.listeners.get(type)?.forEach((listener) => listener(...params))
-    return this
-  }
-}
+import { EventEmmiter } from '../utils/EventEmmiter'
 
 type GridEvents = {
   onHover: (tile: Tile) => void
@@ -54,7 +39,7 @@ export class GridManager implements IMiddleware {
   size: [number, number]
   levels: GridLevel[] = []
   _world: World | null = null
-  emmiter = new EventEmmiter<GridEvents>()
+  event = new EventEmmiter<GridEvents>()
   map: TileMap = new TileMap()
   hoverCoords: [number, number, number] = [0, 0, 0]
 
@@ -70,13 +55,13 @@ export class GridManager implements IMiddleware {
     }
     this.container.addChild(this.highlightingGraphics)
     this.world.app.stage.addChild(this.container)
-    this.world.app.view.addEventListener('pointermove', this.pointerMoveHandler)
+    this.world.event.on('pointerMove', this.pointerMoveHandler)
   }
   tearDown() {}
 
   hightlightCoords(x: number, y: number, z: number) {
     this.highlightingGraphics.clear()
-    this.highlightingGraphics.beginFill(0xffffff, 0.2)
+    this.highlightingGraphics.beginFill(0x00bfff, 0.2)
     this.highlightingGraphics.drawRect(
       x * this.tileSize,
       y * this.tileSize,
@@ -94,10 +79,10 @@ export class GridManager implements IMiddleware {
     return this._highlightingGraphics
   }
 
-  pointerMoveHandler = (e: PointerEvent) => {
+  pointerMoveHandler = ({ x, y }: WorldPointerEvent) => {
     const coords = [
-      (e.x / this.tileSize) | 0,
-      (e.y / this.tileSize) | 0,
+      (x / this.tileSize) | 0,
+      (y / this.tileSize) | 0,
       this.activeLevel,
     ] as [number, number, number]
 
@@ -109,7 +94,7 @@ export class GridManager implements IMiddleware {
       return
     }
     this.hoverCoords = coords
-    this.emmiter.trigger('onHover', [this.map.get(...coords)])
+    this.event.trigger('onHover', this.map.get(...coords))
   }
 
   get world(): World {
@@ -132,7 +117,7 @@ export class GridLevel {
   tileSize: number
   graphics: Graphics
   size: [number, number]
-  constructor(size: [number, number] = [200, 200], tileSize: number = 50) {
+  constructor(size: [number, number], tileSize: number) {
     this.container = new Container()
     this.tileSize = tileSize
     this.graphics = new Graphics()
@@ -143,6 +128,7 @@ export class GridLevel {
     this.graphics.clear()
     this.graphics.lineStyle(1, 0xffffff, 0.1)
     const [width, height] = this.size
+    this.graphics.blendMode = 20
     for (let i = 0, x = 0; i < width; i++, x += this.tileSize) {
       this.graphics.moveTo(x, 0)
       this.graphics.lineTo(x, height * this.tileSize)
